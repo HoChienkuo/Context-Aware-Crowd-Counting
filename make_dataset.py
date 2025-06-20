@@ -10,7 +10,7 @@ from matplotlib import cm as CM
 from image import *
 
 # root is the path to ShanghaiTech dataset
-root=''
+root='./data'
 
 part_B_train = os.path.join(root,'part_B_final/train_data','images')
 part_B_test = os.path.join(root,'part_B_final/test_data','images')
@@ -23,7 +23,7 @@ for path in path_sets:
         img_paths.append(img_path)
 
 for  img_path  in img_paths:
-    print img_path
+    print(img_path)
     mat = io.loadmat(img_path.replace('.jpg','.mat').replace('images','ground_truth').replace('IMG_','GT_IMG_'))
     img= plt.imread(img_path)
     k = np.zeros((img.shape[0],img.shape[1]))
