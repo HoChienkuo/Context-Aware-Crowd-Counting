@@ -7,6 +7,8 @@ import cv2
 
 def load_data(img_path,train = True):
     gt_path = img_path.replace('.jpg','.h5').replace('images','ground_truth')
+    if not os.path.exists(img_path):
+        raise FileNotFoundError(f"pic not found: {img_path}")
     img = Image.open(img_path).convert('RGB')
     gt_file = h5py.File(gt_path,'r')
     target = np.asarray(gt_file['density'])

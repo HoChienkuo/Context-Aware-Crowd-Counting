@@ -3,6 +3,8 @@ import torch
 from torch.nn import functional as F
 from torchvision import models
 
+vgg16_path = "vgg16-397923af.pth"
+
 class ContextualModule(nn.Module):
     def __init__(self, features, out_features=512, sizes=(1, 2, 3, 6)):
         super(ContextualModule, self).__init__()
@@ -40,7 +42,8 @@ class CANNet(nn.Module):
         self.backend = make_layers(self.backend_feat,in_channels = 512,batch_norm=True, dilation = True)
         self.output_layer = nn.Conv2d(64, 1, kernel_size=1)
         if not load_weights:
-            mod = models.vgg16(pretrained = True)
+            mod = models.vgg16(pretrained = False)
+            mod.load_state_dict(torch.load(vgg16_path))
             self._initialize_weights()
             for i in range(len(self.frontend.state_dict().items())):
                 list(self.frontend.state_dict().items())[i][1].data[:] = list(mod.state_dict().items())[i][1].data[:]
